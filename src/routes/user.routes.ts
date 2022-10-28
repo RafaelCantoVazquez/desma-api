@@ -1,10 +1,9 @@
-import { Router, Request, Response } from "express";
+import express, { Router } from 'express';
+import { authUser, registerUser } from '../controllers/user.controller';
 
-const router = Router();
+const router: Router = express.Router();
 
-router.get("/", (req: Request, res: Response): void => {
-  let users = ["Goon", "Tsuki", "Joe"];
-  res.status(200).send(users);
-});
+router.route('/').post(registerUser);
+router.post('/login', authUser);
 
-export { router };
+export { router as userRoutes };
