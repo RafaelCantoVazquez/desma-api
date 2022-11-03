@@ -1,6 +1,14 @@
 import request from "supertest";
-
+import mongoose from "mongoose";
 import app from "../../src/app";
+
+beforeEach(async () => {
+  await mongoose.connect(process.env.MONGO_URI!);
+});
+
+afterEach(async () => {
+  await mongoose.connection.close();
+});
 
 describe("Testing the user routes module", () => {
 
@@ -51,8 +59,12 @@ describe("Testing the user routes module", () => {
       email: "user@test.com",
       password: "password"
     }
+    const wrongUserData = {
+      email: "user@test",
+      password: "password"
+    }
     await request(app).post("/api/v1/users").send(userData);
-    const res = await request(app).post("/api/v1/users/login").send(userData);
+    const res = await request(app).post("/api/v1/users/login").send(wrongUserData);
     expect(res.body.message).toBe("Invalid email or password");
   });
   
