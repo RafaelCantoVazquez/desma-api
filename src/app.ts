@@ -1,9 +1,9 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { connectDB } from './config/db';
-import { errorHandler, notFound } from './middlewares/error.middleware';
-import { userRoutes } from './routes/user.routes';
+import { connectDB } from './infraestructure/config/db';
+import { errorHandler, notFound } from './infraestructure/middlewares/error.middleware';
+import { userRoutes } from './infraestructure/router/user.routes';
 
 dotenv.config();
 connectDB();
