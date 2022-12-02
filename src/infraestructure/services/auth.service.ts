@@ -1,4 +1,4 @@
-import { User } from "../../core/entities/user.entity";
+import { User } from "../models/user.model";
 import { ILoginData, IRegisterData } from "../../core/interfaces/auth/auth.interface";
 import { LoginUser, RegisterUser } from "../../core/interfaces/auth/buildAuth.type";
 import { HttpError } from "../errors/httpError";

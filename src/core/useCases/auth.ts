@@ -1,4 +1,5 @@
-import { IAuthData, ILoginData, IRegisterData } from '../interfaces/auth/auth.interface';
+import { User } from '../dtos/user.dto';
+import { IAuthData } from '../interfaces/auth/auth.interface';
 import { LoginUser, RegisterUser } from '../interfaces/auth/buildAuth.type';
 
 export const authService = Object.freeze({
@@ -8,14 +9,14 @@ export const authService = Object.freeze({
 
 const makeLoginUser =
   (authUser: LoginUser) =>
-  async (authData: ILoginData): Promise<IAuthData> => {
-    const auth = await authUser(authData)
-    return auth
+  async (authData: User): Promise<IAuthData> => {
+    const auth = await authUser(authData);
+    return auth;
   };
 
 const makeRegisterUser =
   (registerUser: RegisterUser) =>
-  async (registerData: IRegisterData): Promise<IAuthData> => {
-    const auth = await registerUser(registerData)
-    return auth
+  async (registerData: User): Promise<IAuthData> => {
+    const auth = await registerUser(registerData);
+    return auth;
   };
