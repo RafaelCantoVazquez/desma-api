@@ -18,7 +18,7 @@ describe("Testing the user routes module", () => {
       email: "user@test.com",
       password: "password"
     }
-    const res = await request(app).post("/api/v1/users").send(userData);
+    const res = await request(app).post("/api/users").send(userData);
     expect(res.body.token).toBeDefined();
   });
 
@@ -28,7 +28,7 @@ describe("Testing the user routes module", () => {
       email: "user",
       password: "password"
     }
-    const res = await request(app).post("/api/v1/users").send(userData);
+    const res = await request(app).post("/api/users").send(userData);
     expect(res.body.message).toBe("User validation failed: email: Invalid email syntax");
     expect(res.status).toBe(400);
   });
@@ -39,8 +39,8 @@ describe("Testing the user routes module", () => {
       email: "user@test.com",
       password: "password"
     }
-    await request(app).post("/api/v1/users").send(userData);
-    const res = await request(app).post("/api/v1/users").send(userData);
+    await request(app).post("/api/users").send(userData);
+    const res = await request(app).post("/api/users").send(userData);
     expect(res.body.message).toBe("The email is already associated with a Desma account");
     expect(res.status).toBe(400);
   });
@@ -50,7 +50,7 @@ describe("Testing the user routes module", () => {
       email: "user@test.com",
       password: "password"
     }
-    const res = await request(app).post("/api/v1/users/login").send(userData);
+    const res = await request(app).post("/api/users/login").send(userData);
     expect(res.body.token).toBeDefined();
   });
 
@@ -63,8 +63,8 @@ describe("Testing the user routes module", () => {
       email: "user@test",
       password: "password"
     }
-    await request(app).post("/api/v1/users").send(userData);
-    const res = await request(app).post("/api/v1/users/login").send(wrongUserData);
+    await request(app).post("/api/users").send(userData);
+    const res = await request(app).post("/api/users/login").send(wrongUserData);
     expect(res.body.message).toBe("Invalid email or password");
   });
   
