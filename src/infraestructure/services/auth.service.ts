@@ -1,10 +1,9 @@
 import { User } from "../models/user.model";
-import { ILoginData, IRegisterData } from "../../core/interfaces/auth/auth.interface";
 import { LoginUser, RegisterUser } from "../../core/interfaces/auth/buildAuth.type";
 import { HttpError } from "../errors/httpError";
 import { generateToken } from "../utils/generateToken";
 
-export const loginUserService: LoginUser = async (authData: ILoginData) => {
+export const loginUserService: LoginUser = async (authData) => {
   const { email, password } = authData;
 
   if (!email || !password) {
@@ -25,7 +24,7 @@ export const loginUserService: LoginUser = async (authData: ILoginData) => {
   }
 };
 
-export const registerUserService: RegisterUser = async (registerData: IRegisterData) => {
+export const registerUserService: RegisterUser = async (registerData) => {
   const { name, email, password } = registerData;
 
   const userExists = await User.findOne({ email });
