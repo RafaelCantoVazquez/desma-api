@@ -14,7 +14,7 @@ export const getFontsService: GetFonts = async (params) => {
     const fonts = await Fonts.findById(id);
 
     if (!fonts) {
-      throw new HttpError('No fonts found', 404);
+      throw new HttpError('Fonts not found', 404);
     }
 
     return {
