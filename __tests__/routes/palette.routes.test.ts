@@ -35,7 +35,7 @@ describe('Testing the palette routes module', () => {
 
   test('Calling delete palette route with correct params should return successfully delete message', async () => {
     const paletteData = {
-      primaryColors: [{ hexCode: '#FFFFFF' }, { hexCode: '#000000' }],
+      primaryColors: [{ hexCode: '#FFFFFA' }, { hexCode: '#000001' }],
       secondaryColors: [],
       textColors: [],
       backgroundColors: [],
@@ -57,7 +57,7 @@ describe('Testing the palette routes module', () => {
 
   test('Calling get palette route with correct params should return palette', async () => {
     const paletteData = {
-      primaryColors: [{ hexCode: '#FFFFFF' }, { hexCode: '#000000' }],
+      primaryColors: [{ hexCode: '#FFFFFB' }, { hexCode: '#000002' }],
       secondaryColors: [],
       textColors: [],
       backgroundColors: [],
@@ -82,7 +82,7 @@ describe('Testing the palette routes module', () => {
 
   test('Calling update palette route with correct params and body should return updated message and new palette', async () => {
     const paletteData = {
-      primaryColors: [{ hexCode: '#FFFFFF' }, { hexCode: '#000000' }],
+      primaryColors: [{ hexCode: '#FFFFFC' }, { hexCode: '#000003' }],
       secondaryColors: [],
       textColors: [],
       backgroundColors: [],
