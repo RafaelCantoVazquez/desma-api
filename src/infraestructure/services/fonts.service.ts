@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
-import { CreateFonts, DeleteFonts, GetFonts, UpdateFonts } from "../../core/interfaces/fontsRepository";
-import { HttpError } from "../errors/httpError";
-import { Fonts } from "../models/fonts.model";
+import {
+  CreateFonts,
+  DeleteFonts,
+  GetFonts,
+  UpdateFonts,
+} from '../../core/interfaces/fontsRepository';
+import { HttpError } from '../errors/httpError';
+import { Fonts } from '../models/fonts.model';
 
 export const getFontsService: GetFonts = async (params) => {
   try {
@@ -12,8 +17,8 @@ export const getFontsService: GetFonts = async (params) => {
       throw new HttpError('No fonts found', 404);
     }
 
-    return { 
-      data: fonts 
+    return {
+      data: fonts,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -42,8 +47,8 @@ export const createFontsService: CreateFonts = async (body) => {
     }
 
     return {
-      message: 'Fonts created successfully', 
-      data: fonts
+      message: 'Fonts created successfully',
+      data: fonts,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -76,9 +81,9 @@ export const updateFontsService: UpdateFonts = async (params, body) => {
       throw new HttpError('Fonts not found', 404);
     }
 
-    return { 
-      message: 'Fonts updated successfully', 
-      data: updatedFonts 
+    return {
+      message: 'Fonts updated successfully',
+      data: updatedFonts,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -104,9 +109,9 @@ export const deleteFontsService: DeleteFonts = async (params) => {
       throw new HttpError('Fonts not found', 404);
     }
 
-    return { 
-      message: 'Fonts deleted successfully', 
-      data: deletedFonts 
+    return {
+      message: 'Fonts deleted successfully',
+      data: deletedFonts,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -120,4 +125,4 @@ export const deleteFontsService: DeleteFonts = async (params) => {
     }
     throw new Error('An error has occurred while deleting fonts');
   }
-}
+};

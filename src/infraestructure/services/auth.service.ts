@@ -1,7 +1,10 @@
-import { User } from "../models/user.model";
-import { LoginUser, RegisterUser } from "../../core/interfaces/auth/buildAuth.type";
-import { HttpError } from "../errors/httpError";
-import { generateToken } from "../utils/generateToken";
+import { User } from '../models/user.model';
+import {
+  LoginUser,
+  RegisterUser,
+} from '../../core/interfaces/auth/buildAuth.type';
+import { HttpError } from '../errors/httpError';
+import { generateToken } from '../utils/generateToken';
 
 export const loginUserService: LoginUser = async (authData) => {
   const { email, password } = authData;
@@ -13,7 +16,7 @@ export const loginUserService: LoginUser = async (authData) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    return{
+    return {
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -30,7 +33,10 @@ export const registerUserService: RegisterUser = async (registerData) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    throw new HttpError('The email is already associated with a Desma account', 400);
+    throw new HttpError(
+      'The email is already associated with a Desma account',
+      400
+    );
   }
 
   try {

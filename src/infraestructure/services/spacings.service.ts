@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
-import { CreateSpacings, DeleteSpacings, GetSpacings, UpdateSpacings } from "../../core/interfaces/spacingsRepository";
-import { HttpError } from "../errors/httpError";
-import { Spacings } from "../models/spacings.model";
+import {
+  CreateSpacings,
+  DeleteSpacings,
+  GetSpacings,
+  UpdateSpacings,
+} from '../../core/interfaces/spacingsRepository';
+import { HttpError } from '../errors/httpError';
+import { Spacings } from '../models/spacings.model';
 
 export const getSpacingsService: GetSpacings = async (params) => {
   try {
@@ -12,8 +17,8 @@ export const getSpacingsService: GetSpacings = async (params) => {
       throw new HttpError('No spacings found', 404);
     }
 
-    return { 
-      data: spacings 
+    return {
+      data: spacings,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -40,8 +45,8 @@ export const createSpacingsService: CreateSpacings = async (body) => {
     }
 
     return {
-      message: 'Spacings created successfully', 
-      data: spacings
+      message: 'Spacings created successfully',
+      data: spacings,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -72,9 +77,9 @@ export const updateSpacingsService: UpdateSpacings = async (params, body) => {
       throw new HttpError('Spacings not found', 404);
     }
 
-    return { 
-      message: 'Spacings updated successfully', 
-      data: updatedSpacings 
+    return {
+      message: 'Spacings updated successfully',
+      data: updatedSpacings,
     };
   } catch (error) {
     if (error instanceof HttpError) {
@@ -100,20 +105,23 @@ export const deleteSpacingsService: DeleteSpacings = async (params) => {
       throw new HttpError('Spacings not found', 404);
     }
 
-    return { 
-      message: 'Spacings deleted successfully', 
-      data: deletedSpacings 
+    return {
+      message: 'Spacings deleted successfully',
+      data: deletedSpacings,
     };
   } catch (error) {
     if (error instanceof HttpError) {
       throw error;
     }
     if (error instanceof mongoose.Error.CastError) {
-      throw new HttpError('Invalid spacings id syntax or spacings not found', 400);
+      throw new HttpError(
+        'Invalid spacings id syntax or spacings not found',
+        400
+      );
     }
     if (error instanceof mongoose.Error.ValidationError) {
       throw new HttpError(error.message, 400);
     }
     throw new Error('An error has occurred while deleting spacings');
   }
-}
+};

@@ -1,8 +1,11 @@
-import express, { Application } from "express";
+import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { connectDB } from './infraestructure/config/db';
-import { errorHandler, notFound } from './infraestructure/middlewares/error.middleware';
+import {
+  errorHandler,
+  notFound,
+} from './infraestructure/middlewares/error.middleware';
 import { userRoutes } from './infraestructure/router/user.routes';
 import { fontsRoutes } from './infraestructure/router/fonts.routes';
 import { spacingsRoutes } from './infraestructure/router/spacings.routes';

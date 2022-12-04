@@ -1,9 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import { loginUserService, registerUserService } from '../services/auth.service';
+import {
+  loginUserService,
+  registerUserService,
+} from '../services/auth.service';
 import { authService } from '../../core/useCases/auth';
 import { HttpError } from '../errors/httpError';
 
-export const authUser = async (req: Request, res: Response, next: NextFunction) => {
+export const authUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authData = req.body;
   const login = authService.makeLoginUser(loginUserService);
 
@@ -18,7 +25,11 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
+export const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const registerData = req.body;
   const register = authService.makeRegisterUser(registerUserService);
 
@@ -32,4 +43,3 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
     next(error);
   }
 };
-

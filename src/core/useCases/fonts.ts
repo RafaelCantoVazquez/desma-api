@@ -1,6 +1,14 @@
-import { FontsRequestBody, FontsRequestParams, FontsResponse } from "../dtos/fonts.dto";
-import { CreateFonts, DeleteFonts, GetFonts, UpdateFonts } from "../interfaces/fontsRepository";
-
+import {
+  FontsRequestBody,
+  FontsRequestParams,
+  FontsResponse,
+} from '../dtos/fonts.dto';
+import {
+  CreateFonts,
+  DeleteFonts,
+  GetFonts,
+  UpdateFonts,
+} from '../interfaces/fontsRepository';
 
 export const fontsService = Object.freeze({
   makeGetFonts: (getFonts: GetFonts) => makeGetFonts(getFonts),
@@ -25,7 +33,10 @@ const makeCreateFonts =
 
 const makeUpdateFonts =
   (updateFonts: UpdateFonts) =>
-  async (params: FontsRequestParams, body: FontsRequestBody): Promise<FontsResponse> => {
+  async (
+    params: FontsRequestParams,
+    body: FontsRequestBody
+  ): Promise<FontsResponse> => {
     const fonts = await updateFonts(params, body);
     return fonts;
   };

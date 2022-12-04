@@ -1,14 +1,23 @@
 import { NextFunction, Request, Response } from 'express';
 import { spacingsService } from '../../core/useCases/spacings';
 import { HttpError } from '../errors/httpError';
-import { createSpacingsService, deleteSpacingsService, getSpacingsService, updateSpacingsService } from '../services/spacings.service';
+import {
+  createSpacingsService,
+  deleteSpacingsService,
+  getSpacingsService,
+  updateSpacingsService,
+} from '../services/spacings.service';
 
-export const getSpacings = async (req: Request, res: Response, next: NextFunction) => {
+export const getSpacings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   const getSpacings = spacingsService.makeGetSpacings(getSpacingsService);
 
   try {
-    const data = await getSpacings({id});
+    const data = await getSpacings({ id });
     res.status(200).send(data);
   } catch (error) {
     if (error instanceof HttpError) {
@@ -18,9 +27,15 @@ export const getSpacings = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const createSpacings = async (req: Request, res: Response, next: NextFunction) => {
+export const createSpacings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const body = req.body;
-  const createSpacings = spacingsService.makeCreateSpacings(createSpacingsService);
+  const createSpacings = spacingsService.makeCreateSpacings(
+    createSpacingsService
+  );
 
   try {
     const data = await createSpacings(body);
@@ -33,13 +48,19 @@ export const createSpacings = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const updateSpacings = async (req: Request, res: Response, next: NextFunction) => {
+export const updateSpacings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   const body = req.body;
-  const updateSpacings = spacingsService.makeUpdateSpacings(updateSpacingsService);
+  const updateSpacings = spacingsService.makeUpdateSpacings(
+    updateSpacingsService
+  );
 
   try {
-    const data = await updateSpacings({id}, body);
+    const data = await updateSpacings({ id }, body);
     res.status(200).send(data);
   } catch (error) {
     if (error instanceof HttpError) {
@@ -49,12 +70,18 @@ export const updateSpacings = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const deleteSpacings = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteSpacings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
-  const deleteSpacings = spacingsService.makeDeleteSpacings(deleteSpacingsService);
+  const deleteSpacings = spacingsService.makeDeleteSpacings(
+    deleteSpacingsService
+  );
 
   try {
-    const data = await deleteSpacings({id});
+    const data = await deleteSpacings({ id });
     res.status(200).send(data);
   } catch (error) {
     if (error instanceof HttpError) {
