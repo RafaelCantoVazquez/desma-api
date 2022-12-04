@@ -14,7 +14,7 @@ describe('Testing the user routes module', () => {
   test('Calling register route with correct data should return a token', async () => {
     const userData = {
       name: 'User',
-      email: 'user@test.com',
+      email: `test.${Math.random().toString(36).slice(2)}@test.com`,
       password: 'password',
     };
     const res = await request(app).post('/api/users').send(userData);
@@ -35,9 +35,17 @@ describe('Testing the user routes module', () => {
   });
 
   test('Calling register route with email registered previously should return an error', async () => {
+    const userEmail = `test.${Math.random().toString(36).slice(2)}@test.com`;
+    const userRegisterData = {
+      name: 'User',
+      email: userEmail,
+      password: 'password',
+    };
+    await request(app).post('/api/users').send(userRegisterData);
+
     const userData = {
       name: 'User',
-      email: 'user@test.com',
+      email: userEmail,
       password: 'password',
     };
     await request(app).post('/api/users').send(userData);
@@ -49,8 +57,16 @@ describe('Testing the user routes module', () => {
   });
 
   test('Calling login route with correct data should return a token', async () => {
+    const userEmail = `test.${Math.random().toString(36).slice(2)}@test.com`;
+    const userRegisterData = {
+      name: 'User',
+      email: userEmail,
+      password: 'password',
+    };
+    await request(app).post('/api/users').send(userRegisterData);
+
     const userData = {
-      email: 'user@test.com',
+      email: userEmail,
       password: 'password',
     };
     const res = await request(app).post('/api/users/login').send(userData);
@@ -58,15 +74,18 @@ describe('Testing the user routes module', () => {
   });
 
   test('Calling login route with incorrect data should return an error', async () => {
-    const userData = {
-      email: 'user@test.com',
+    const userEmail = `test.${Math.random().toString(36).slice(2)}@test.com`;
+    const userRegisterData = {
+      name: 'User',
+      email: userEmail,
       password: 'password',
     };
+    await request(app).post('/api/users').send(userRegisterData);
+
     const wrongUserData = {
       email: 'user@test',
       password: 'password',
     };
-    await request(app).post('/api/users').send(userData);
     const res = await request(app).post('/api/users/login').send(wrongUserData);
     expect(res.body.message).toBe('Invalid email or password');
   });

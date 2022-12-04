@@ -14,7 +14,7 @@ export const getSpacingsService: GetSpacings = async (params) => {
     const spacings = await Spacings.findById(id);
 
     if (!spacings) {
-      throw new HttpError('No spacings found', 404);
+      throw new HttpError('Spacings not found', 404);
     }
 
     return {
