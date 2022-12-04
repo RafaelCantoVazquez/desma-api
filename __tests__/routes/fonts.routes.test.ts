@@ -1,7 +1,7 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
 import app from '../../src/app';
-import { AuthMock } from '../../mocks/mocks';
+import AuthMock from '../../mocks/auth.json';
 
 beforeEach(async () => {
   await mongoose.connect(process.env.MONGO_URI!);
