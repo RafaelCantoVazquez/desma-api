@@ -15,7 +15,8 @@
   "scripts": {
     "test": "jest --coverage",
     "dev": "nodemon ./src/server.ts",
-    "build": "tsc",
+    "build": "npm install && tsc",
+    "start": "node dist/server.js",
     "format": "prettier --write src/ __tests__/"
   },
   "repository": {
