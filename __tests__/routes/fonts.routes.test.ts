@@ -38,6 +38,23 @@ describe('Testing the fonts routes module', () => {
     await request(app).delete(`/api/fonts/${id}`).send().set(AuthMock);
   });
 
+  test('Calling create fonts route with incorrect body should return an error message', async () => {
+    const fontsData = {
+      headingFontName: 'Inter',
+      parragraphFontName: 'Inter',
+      baseSize: 80,
+      scaleFactor: '',
+    };
+    const res = await request(app)
+      .post(`/api/fonts/`)
+      .send(fontsData)
+      .set(AuthMock);
+    expect(res.body.message).toBe(
+      'Fonts validation failed: scaleFactor: Path `scaleFactor` is required.'
+    );
+    expect(res.statusCode).toBe(400);
+  });
+
   test('Calling delete fonts route with correct params should return deleted fonts count', async () => {
     const fontsData = {
       headingFontName: 'Inter',
@@ -56,6 +73,26 @@ describe('Testing the fonts routes module', () => {
       .set(AuthMock);
     expect(res.body.message).toBe('Fonts deleted successfully');
     expect(res.body.data).toHaveProperty('deletedCount', 1);
+  });
+
+  test('Calling delete fonts route with incorrect id syntax should return an error message', async () => {
+    const fontsData = {
+      headingFontName: 'Inter',
+      parragraphFontName: 'Inter',
+      baseSize: 80,
+      scaleFactor: 'Major Third (1.250)',
+    };
+    const response = await request(app)
+      .post(`/api/fonts/`)
+      .send(fontsData)
+      .set(AuthMock);
+    const { _id: id } = response.body.data;
+    const res = await request(app)
+      .delete(`/api/fonts/${0}`)
+      .send()
+      .set(AuthMock);
+    expect(res.body.message).toBe('Invalid fonts id syntax or fonts not found');
+    expect(res.statusCode).toBe(400);
   });
 
   test('Calling get fonts route with correct params should return fonts', async () => {
@@ -81,6 +118,27 @@ describe('Testing the fonts routes module', () => {
     );
     expect(res.body.data).toHaveProperty('baseSize', fontsData.baseSize);
     expect(res.body.data).toHaveProperty('scaleFactor', fontsData.scaleFactor);
+    await request(app).delete(`/api/fonts/${id}`).send().set(AuthMock);
+  });
+
+  test('Calling get fonts route with incorrect id should return an error message', async () => {
+    const fontsData = {
+      headingFontName: 'Inter',
+      parragraphFontName: 'Inter',
+      baseSize: 80,
+      scaleFactor: 'Major Third (1.250)',
+    };
+    const response = await request(app)
+      .post(`/api/fonts/`)
+      .send(fontsData)
+      .set(AuthMock);
+    const { _id: id } = response.body.data;
+    const res = await request(app)
+      .get(`/api/fonts/${'000000000000000000000000'}`)
+      .send()
+      .set(AuthMock);
+    expect(res.body.message).toBe('Fonts not found');
+    expect(res.statusCode).toBe(404);
     await request(app).delete(`/api/fonts/${id}`).send().set(AuthMock);
   });
 
@@ -120,6 +178,33 @@ describe('Testing the fonts routes module', () => {
       'scaleFactor',
       updatedFontsData.scaleFactor
     );
+    await request(app).delete(`/api/fonts/${id}`).send().set(AuthMock);
+  });
+
+  test('Calling update fonts route with incorrect id should return an error message', async () => {
+    const fontsData = {
+      headingFontName: 'Inter',
+      parragraphFontName: 'Inter',
+      baseSize: 80,
+      scaleFactor: 'Major Third (1.250)',
+    };
+    const updatedFontsData = {
+      headingFontName: 'Arial',
+      parragraphFontName: 'Arial',
+      baseSize: 12,
+      scaleFactor: 'Major Third (1.250)',
+    };
+    const response = await request(app)
+      .post(`/api/fonts/`)
+      .send(fontsData)
+      .set(AuthMock);
+    const { _id: id } = response.body.data;
+    const res = await request(app)
+      .put(`/api/fonts/${'000000000000000000000000'}`)
+      .send(updatedFontsData)
+      .set(AuthMock);
+    expect(res.body.message).toBe('Fonts not found');
+    expect(res.statusCode).toBe(404);
     await request(app).delete(`/api/fonts/${id}`).send().set(AuthMock);
   });
 });

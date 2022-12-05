@@ -105,6 +105,27 @@ describe('Testing the design system routes module', () => {
       .set({ Authorization: `Bearer ${authToken}` });
   });
 
+  test('Calling create design system route with incorrect body should return an error message', async () => {
+    const { paletteId, fontsId, spacingsId, authToken } = await setupIds();
+
+    const designSystemData = {
+      name: 'Test 1',
+      userId: '000000000000000000000000',
+      paletteId: paletteId,
+      fontsId: fontsId,
+      spacingsId: spacingsId,
+    };
+    const response = await request(app)
+      .post('/api/design-system')
+      .send(designSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+
+    expect(response.body.message).toBe(
+      'DesignSystem validation failed: userId: Invalid ID(s)'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
   test('Calling delete design system route with correct params should return deleted design systems count', async () => {
     const { userId, fontsId, paletteId, spacingsId, authToken } =
       await setupIds();
@@ -130,11 +151,99 @@ describe('Testing the design system routes module', () => {
     expect(res.body.data).toHaveProperty('deletedCount', 1);
   });
 
-  test('Calling get spacings route with correct params should return spacings', async () => {
-    expect(true).toBe(true);
+  test('Calling delete design system route with incorrect id syntax should return an error message', async () => {
+    const { userId, fontsId, paletteId, spacingsId, authToken } =
+      await setupIds();
+
+    const designSystemData = {
+      name: 'Test 1',
+      userId: userId,
+      paletteId: paletteId,
+      fontsId: fontsId,
+      spacingsId: spacingsId,
+    };
+    const response = await request(app)
+      .post('/api/design-system')
+      .send(designSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+    const { _id: id } = response.body.data;
+
+    const res = await request(app)
+      .delete(`/api/design-system/${0}`)
+      .send()
+      .set({ Authorization: `Bearer ${authToken}` });
+    expect(res.body.message).toBe(
+      'Invalid design system id syntax or design system not found'
+    );
+    expect(res.statusCode).toBe(400);
   });
 
-  test('Calling update spacings route with correct params and body should return updated message and new spacings', async () => {
+  test('Calling get design system by id route with correct params should return design system', async () => {
+    const { userId, fontsId, paletteId, spacingsId, authToken } =
+      await setupIds();
+
+    const designSystemData = {
+      name: 'Test 1',
+      userId: userId,
+      paletteId: paletteId,
+      fontsId: fontsId,
+      spacingsId: spacingsId,
+    };
+    const response = await request(app)
+      .post('/api/design-system')
+      .send(designSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+    const { _id: id } = response.body.data;
+
+    const res = await request(app)
+      .get(`/api/design-system/${id}`)
+      .send(designSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+
+    expect(res.body.data).toHaveProperty('name', 'Test 1');
+    expect(res.body.data).toHaveProperty('userId', userId);
+    expect(res.body.data).toHaveProperty('paletteId', paletteId);
+    expect(res.body.data).toHaveProperty('fontsId', fontsId);
+    expect(res.body.data).toHaveProperty('spacingsId', spacingsId);
+
+    await request(app)
+      .delete(`/api/design-system/${id}`)
+      .send()
+      .set({ Authorization: `Bearer ${authToken}` });
+  });
+
+  test('Calling get design systems route with correct params should return design systems', async () => {
+    const { userId, fontsId, paletteId, spacingsId, authToken } =
+      await setupIds();
+
+    const designSystemData = {
+      name: 'Test 1',
+      userId: userId,
+      paletteId: paletteId,
+      fontsId: fontsId,
+      spacingsId: spacingsId,
+    };
+    const response = await request(app)
+      .post('/api/design-system')
+      .send(designSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+    const { _id: id } = response.body.data;
+
+    const res = await request(app)
+      .get(`/api/design-system/users/${userId}`)
+      .send()
+      .set({ Authorization: `Bearer ${authToken}` });
+
+    const designSystems: object[] = res.body.data;
+    expect(designSystems.length).toBeGreaterThan(0);
+
+    await request(app)
+      .delete(`/api/design-system/${id}`)
+      .send()
+      .set({ Authorization: `Bearer ${authToken}` });
+  });
+
+  test('Calling update design system route with correct params and body should return updated message and new design system', async () => {
     const { userId, fontsId, paletteId, spacingsId, authToken } =
       await setupIds();
 
@@ -164,6 +273,39 @@ describe('Testing the design system routes module', () => {
       'name',
       updatedDesignSystemData.name
     );
+    await request(app)
+      .delete(`/api/design-system/${id}`)
+      .send()
+      .set({ Authorization: `Bearer ${authToken}` });
+  });
+
+  test('Calling update design system route with incorrect id should return an error message', async () => {
+    const { userId, fontsId, paletteId, spacingsId, authToken } =
+      await setupIds();
+
+    const designSystemData = {
+      name: 'Test 1',
+      userId: userId,
+      paletteId: paletteId,
+      fontsId: fontsId,
+      spacingsId: spacingsId,
+    };
+    const createdDesignSystemResponse = await request(app)
+      .post('/api/design-system')
+      .send(designSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+    const { _id: id } = createdDesignSystemResponse.body.data;
+
+    const updatedDesignSystemData = {
+      name: '',
+    };
+    const response = await request(app)
+      .put(`/api/design-system/${'000000000000000000000000'}`)
+      .send(updatedDesignSystemData)
+      .set({ Authorization: `Bearer ${authToken}` });
+
+    expect(response.body.message).toBe('Design system not found');
+    expect(response.statusCode).toBe(404);
     await request(app)
       .delete(`/api/design-system/${id}`)
       .send()
